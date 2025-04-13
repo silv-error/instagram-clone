@@ -11,7 +11,11 @@
     "type": "git",
     "url": "git+https://github.com/silv-error/instagram-clone.git"
   },
-  "keywords": ["instagram", "clone", "social media"],
+  "keywords": [
+    "instagram",
+    "clone",
+    "social media"
+  ],
   "author": "joefrancis.silv@gmail.com kakibutsi@gmail.com",
   "type": "module",
   "license": "ISC",
@@ -21,6 +25,7 @@
   "homepage": "https://github.com/silv-error/instagram-clone#readme",
   "dependencies": {
     "bcryptjs": "^3.0.2",
+    "cloudinary": "^2.6.0",
     "cookie-parser": "^1.4.7",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
