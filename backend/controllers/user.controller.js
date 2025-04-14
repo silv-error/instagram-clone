@@ -2,6 +2,17 @@ import cloudinary from "../config/cloudinary.js";
 import Notification from "../models/notification.model.js";
 import User from "../models/user.model.js";
 
+export const getUsers = async (req, res) => {
+  try {
+    const users = await User.find().select("fullName profileImg");
+    if(!users) return res.status(404).json({ error: "Users not found" });
+    res.status(200).json(users);
+  } catch (error) {
+    console.error(`Error in getUsers controller ${error.message}`);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
 export const getUserProfile = async (req, res) => {
   try {
     const username = req.params.username;
@@ -78,11 +89,6 @@ export const followUnfollowUser = async (req, res) => {
       await User.findByIdAndUpdate({ _id: user._id }, {
         $pull: { following: userId }
       });
-
-      await Notification.create({
-        user: userId,
-        action: "Followed",
-      });
     }
 
     if(!following) {
@@ -92,6 +98,12 @@ export const followUnfollowUser = async (req, res) => {
 
       await User.findByIdAndUpdate({ _id: user._id }, {
         $push: { following: userId }
+      });
+
+      await Notification.create({
+        from: user._id,
+        to: userId,
+        action: "Followed",
       });
     }
 
@@ -119,7 +131,11 @@ export const getSuggestedUsers = async (req, res) => {
 		]);
 
     const filteredUsers = users.filter(user => !userFollowing.following.includes(user._id))
-    const suggestedUsers = filteredUsers.slice(0, 4);
+    let suggestedUsers = filteredUsers.slice(0, 4);
+
+    suggestedUsers.forEach((user) => {
+      user.password = undefined
+    });
 
     res.status(200).json(suggestedUsers);
   } catch (error) {

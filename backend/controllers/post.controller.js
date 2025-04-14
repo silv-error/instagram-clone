@@ -5,7 +5,7 @@ import User from "../models/user.model.js";
 
 export const getPosts = async (req, res) => {
   try {
-    const posts = await Post.find().populate({ path: "user", select: "-password" });
+    const posts = await Post.find().populate({ path: "user", select: "username profileImg" });
     
     res.status(200).json(posts);
   } catch (error) {
@@ -35,7 +35,7 @@ export const createPost = async (req, res) => {
     });
 
     await newPost.save();
-    res.status(200).json(newPost);
+    res.status(200).json({ message: "Post created successfully" });
   } catch (error) {
     console.error(`Error in createPost controller ${error.message}`);
     res.status(500).json({ error: "Internal server error" });
@@ -68,8 +68,8 @@ export const likePost = async (req, res) => {
       });
 
       await Notification.create({
-        user: user._id,
-        post: postId,
+        from: user._id,
+        to: post.user._id,
         action: "Liked",
       });
     }
@@ -96,9 +96,15 @@ export const commentPost = async (req, res) => {
       return res.status(404).json({ error: "Post not found" });
     }
 
-    const comment = { text, user: user._id};
+    const comment = { text, user: post.user._id};
 
     post.comments.push(comment);
+
+    await Notification.create({
+      from: user._id,
+      to: post.user._id,
+      action: "Commented",
+    })
 
     await post.save();
 
@@ -119,7 +125,7 @@ export const getUserPosts = async (req, res) => {
     }
 
     const posts = await Post.find({ user: user._id }).populate({ 
-      path: "user", select: "-password"
+      path: "user", select: "username profileImg"
     });
 
     if(!posts) {

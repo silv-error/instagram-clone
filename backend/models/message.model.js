@@ -1,19 +1,17 @@
 import mongoose from "mongoose";
 
-const notificationSchema = new mongoose.Schema({
-  from: {
+const messageSchema = new mongoose.Schema({
+  senderId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: true,
   },
-  to: {
+  receiverId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: true,
   },
-  action: {
+  message: {
     type: String,
-    enum: ["Liked", "Commented", "Followed"]
+    required: true,
   },
   read: {
     type: Boolean,
@@ -21,6 +19,6 @@ const notificationSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-const Notification = mongoose.model("Notification", notificationSchema);
+const Message = mongoose.model("Message", messageSchema);
 
-export default Notification;
+export default Message;
