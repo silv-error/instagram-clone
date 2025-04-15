@@ -9,10 +9,10 @@ import notificationRoutes from "./routes/notification.routes.js";
 import messagesRoutes from "./routes/message.routes.js";
 
 import { connectDB } from "./config/db.js";
+import { app, server } from "./socket/socketio.js";
 
 dotenv.config();
 
-const app = express();
 const PORT = process.env.PORT;
 
 app.use(express.json({ limit: "10mb" }));
@@ -25,7 +25,7 @@ app.use("/api/posts", postRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/messages", messagesRoutes);
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   connectDB();
   console.log(`Server running at http://localhost:${PORT}`);
 });
