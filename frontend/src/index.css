@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@plugin "daisyui";
+
+.grand-hotel-regular {
+  font-family: "Grand Hotel", cursive;
+  font-style: italic;
+}
