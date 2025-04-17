@@ -23,7 +23,7 @@ const useGetUsers = () => {
     getUsers();
   }, [])
 
-  return {users}
+  return {getUsers, users}
 }
 
 export default useGetUsers

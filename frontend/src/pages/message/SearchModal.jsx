@@ -28,14 +28,14 @@ const SearchModal = () => {
         >
           <div
             onClick={(e) => e.stopPropagation()} 
-            className="relatiev shadow-none flex flex-col justify-between h-[600px] w-[550px] p-0 rounded-xl overflow-hidden bg-[#1C1C1C]">
+            className="relatiev shadow-none flex flex-col justify-between h-[600px] w-[550px] p-0 rounded-2xl overflow-hidden bg-[#1C1C1C]">
           <header>
             <div className='flex justify-center p-2 relative'>
               <h2 className='font-bold text-wrap'>New message</h2>
               <div className='flex absolute right-1 top-0'>
                 <form method="dialog">
                   <button 
-                    className="btn btn-sm btn-circle btn-ghost text-md"
+                    className="btn btn-sm btn-circle btn-ghost text-lg"
                     onClick={() => setToggleModal(false)}
                   >✕</button>
                 </form>

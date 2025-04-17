@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import toast from 'react-hot-toast';
+import { useQueryClient } from '@tanstack/react-query';
 
 const useSignup = () => {
-  const [loading, setLoading] = useState();
+  const queryClient = useQueryClient();
+  const [loading, setLoading] = useState(false);
   const signup = async (formData) => {
+    setLoading(true);
     try {
       const res = await fetch("/api/auth/signup", {
         method: "POST", 
@@ -20,6 +23,9 @@ const useSignup = () => {
       }
     } catch (error) {
       throw new Error(error);
+    } finally {
+      queryClient.invalidateQueries({ queryKey: ["authUser"] });
+      setLoading(false);
     }
   }
   signup();

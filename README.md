@@ -6,6 +6,11 @@
 - Online user status
 - Online engagement like post, like, and comment
 
+### Install dependencies
+```
+npm install
+```
+
 ### Build app
 ```
 npm run build
